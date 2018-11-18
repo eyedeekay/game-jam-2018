@@ -1,0 +1,1 @@
+rect 3 1 7 3; lightearth lightearth mud;

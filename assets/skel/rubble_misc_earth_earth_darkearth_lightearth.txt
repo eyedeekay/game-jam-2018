@@ -1,0 +1,1 @@
+rect 1 2 5 5; earth darkearth lightearth;

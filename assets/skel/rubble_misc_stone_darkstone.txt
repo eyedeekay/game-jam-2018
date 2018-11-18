@@ -1,0 +1,1 @@
+rect 6 2 7 2; lightstone lightstone darkstone;

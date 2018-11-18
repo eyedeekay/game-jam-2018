@@ -1,0 +1,1 @@
+rect 1 1 5 4; lightsand dirt lightsand;

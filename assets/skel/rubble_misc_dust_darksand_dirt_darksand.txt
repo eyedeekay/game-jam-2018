@@ -1,0 +1,1 @@
+rect 1 3 5 5; darksand dirt darksand;

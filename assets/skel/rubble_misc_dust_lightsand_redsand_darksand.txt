@@ -1,0 +1,1 @@
+rect 1 1 3 5; lightsand redsand darksand;

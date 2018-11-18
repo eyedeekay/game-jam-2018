@@ -1,0 +1,40 @@
+FROM alpine:edge
+ARG ANDROID_HOME=/opt/android-sdk-linux
+ARG SDK_TOOLS_VERSION=4333796
+ARG ANDROID_EXTRAS=""
+ARG PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+ENV ANDROID_HOME=$ANDROID_HOME
+ENV SDK_TOOLS_VERSION=$SDK_TOOLS_VERSION
+ENV ANDROID_EXTRAS=$ANDROID_EXTRAS
+ENV PATH=$PATH
+RUN apk update -U
+RUN apk upgrade
+RUN apk add --no-cache bash unzip libstdc++ openjdk8-jre wget ca-certificates unzip
+RUN mkdir -p /opt/android-sdk-linux && cd /opt
+RUN wget -q https://dl.google.com/android/repository/sdk-tools-linux-$SDK_TOOLS_VERSION.zip -O android-sdk-tools.zip
+RUN unzip -q android-sdk-tools.zip -d $ANDROID_HOME
+RUN rm -f android-sdk-tools.zip
+RUN yes | /opt/android-sdk-linux/tools/bin/sdkmanager --install tools platform-tools $ANDROID_EXTRAS
+RUN apk add go \
+    musl-dev \
+    make \
+    git \
+    mesa-dev \
+    xorg-server-dev \
+    freeglut-dev \
+    libxrandr-dev \
+    libxcursor-dev \
+    libxinerama-dev \
+    alsa-lib-dev
+RUN adduser -g 'gamewrapper,,,,' -D -h /home/gamewrapper gamewrapper
+COPY . /home/gamewrapper/game
+WORKDIR /home/gamewrapper/game
+RUN chown -R gamewrapper:gamewrapper /home/gamewrapper/game
+USER gamewrapper
+RUN make deps
+RUN make engo
+RUN make android
+RUN make gomobile-init
+RUN make engo-android
+RUN make build
+CMD ./bin/demo

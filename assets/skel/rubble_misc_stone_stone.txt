@@ -1,0 +1,1 @@
+rect 4 5 5 2; lightstone lightstone stone;

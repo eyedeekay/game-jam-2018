@@ -1,0 +1,1 @@
+rect 3 2 3 7; dust redsand lightsand;

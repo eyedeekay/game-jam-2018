@@ -1,0 +1,1 @@
+rect 3 1 6 5; dirt dirt redsand;

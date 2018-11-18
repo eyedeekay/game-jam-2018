@@ -1,0 +1,1 @@
+rect 3 3 6 6; darksand dust darksand;

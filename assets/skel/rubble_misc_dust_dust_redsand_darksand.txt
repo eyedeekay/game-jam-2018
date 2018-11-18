@@ -1,0 +1,1 @@
+rect 2 1 4 4; dust redsand darksand;

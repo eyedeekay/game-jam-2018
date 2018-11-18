@@ -1,0 +1,1 @@
+rect 2 1 4 3; lightearth earth earth;

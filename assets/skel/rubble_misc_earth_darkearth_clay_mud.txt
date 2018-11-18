@@ -1,0 +1,1 @@
+rect 1 2 6 5; darkearth clay mud;

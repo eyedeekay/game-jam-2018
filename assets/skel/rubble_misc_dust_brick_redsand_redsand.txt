@@ -1,0 +1,1 @@
+rect 2 1 7 5; brick redsand redsand;

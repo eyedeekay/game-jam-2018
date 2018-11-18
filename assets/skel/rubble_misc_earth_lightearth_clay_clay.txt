@@ -1,0 +1,1 @@
+rect 1 3 5 4; lightearth clay clay;
