@@ -1,10 +1,6 @@
 if cy%200 == 0 && cx%200 == 0 || cy%65 == 0 && cx%65 == 0 {
-    dx = cx + 1
-    dy = cy + 1
-    ret = toString(dx) + toString(dy) + toString(true) + "rubble"
+    ret = returnFormat(cx+10,cy+10,true,"wall")
     return ret
 }
-dx = cx + 1
-dy = cy + 1
-ret = toString(dx) + toString(dy) + toString(false) + "rubble"
+ret = returnFormat(cx+10,cy+10,true,"")
 return ret

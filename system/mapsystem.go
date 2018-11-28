@@ -21,12 +21,36 @@ type MapSystem struct {
 	GraphicFactory *graphic.GraphicsFactory
 	scriptpath     string
 	script         string
-	firstrun       bool
 }
 
 // Remove is called whenever an Entity is removed from the World, in order to remove it from this sytem as well
 func (*MapSystem) Remove(ecs.BasicEntity) {
 
+}
+
+func (m *MapSystem) LoadEntity(x, y int, tags string) {
+	brick, err := gameentity.NewEntityFromGraphic(
+		m.GraphicFactory.FromTags(tags),
+		float32(x),
+		float32(y),
+	)
+	if err != nil {
+		panic("Unable to load texture: " + err.Error())
+	}
+	for _, system := range m.World.Systems() {
+		switch sys := system.(type) {
+		case *common.RenderSystem:
+			sys.Add(&brick.BasicEntity, &brick.RenderComponent, &brick.SpaceComponent)
+		case *ScaleSystem:
+			sys.Add(&brick.BasicEntity, &brick.RenderComponent, &brick.SpaceComponent)
+		case *common.MouseSystem:
+			sys.Add(&brick.BasicEntity,
+				&m.MouseTracker.MouseComponent,
+				&brick.SpaceComponent,
+				&brick.RenderComponent,
+			)
+		}
+	}
 }
 
 func (m *MapSystem) LoadWall(x, y float32) {
@@ -81,17 +105,17 @@ func (m *MapSystem) New(w *ecs.World, g *graphic.GraphicsFactory, scriptpath str
 	m.script = string(tmpscript)
 	m.vmEnv = vm.NewEnv()
 	err = m.vmEnv.Define("println", fmt.Println)
+	err = m.vmEnv.Define("returnFormat", m.returnFormat)
 	if err != nil {
 		log.Fatalf("Define error: %v\n", err)
 	}
-	m.firstrun = true
+	m.Build(0, 0)
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.MouseSystem:
 			sys.Add(&m.MouseTracker.BasicEntity, &m.MouseTracker.MouseComponent, nil, nil)
 		}
 	}
-	m.Build(1, 1)
 }
 
 func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *MapSystem {
@@ -109,16 +133,16 @@ func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *
 	m.script = string(tmpscript)
 	m.vmEnv = vm.NewEnv()
 	err = m.vmEnv.Define("println", fmt.Println)
+	err = m.vmEnv.Define("returnFormat", m.returnFormat)
 	if err != nil {
 		log.Fatalf("Define error: %v\n", err)
 	}
-	m.firstrun = true
+	m.Build(0, 0)
 	for _, system := range w.Systems() {
 		switch sys := system.(type) {
 		case *common.MouseSystem:
 			sys.Add(&m.MouseTracker.BasicEntity, &m.MouseTracker.MouseComponent, nil, nil)
 		}
 	}
-	m.Build(1, 1)
 	return &m
 }

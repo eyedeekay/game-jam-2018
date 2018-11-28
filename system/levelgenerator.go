@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+import "engo.io/engo"
+
 func (m *MapSystem) Build(xstart, ystart int) {
 	stop := false
 	fmt.Println("Running level generator")
@@ -66,7 +68,7 @@ func (m MapSystem) tidyMapInfo() (int, int) {
 func (m MapSystem) insertMapElement(tags string) (int, int, bool, error) {
 	fmt.Printf("x is string %s\n", tags) // here v has type string
 
-	sliceSplit := strings.Split(strings.Replace(tags, ",", " ", -1), " ")
+	sliceSplit := strings.SplitN(strings.Replace(tags, ",", " ", -1), " ", 4)
 	if len(sliceSplit) < 3 {
 		return 0, 0, false, fmt.Errorf("Erroneous script line in map generator%s", tags)
 	}
@@ -77,6 +79,9 @@ func (m MapSystem) insertMapElement(tags string) (int, int, bool, error) {
 	y, e := strconv.Atoi(sliceSplit[1])
 	if e != nil {
 		return 0, 0, false, e
+	}
+	if sliceSplit[3] != "" {
+		m.LoadEntity(x, y, sliceSplit[3])
 	}
 	fmt.Printf("Next x: %d, y: %d, cursor moved position\n", x, y)
 	b := true
@@ -93,4 +98,20 @@ func (m *MapSystem) executeAnko() (interface{}, error) {
 	} else {
 		return nil, err
 	}
+}
+
+func (m *MapSystem) returnFormat(x, y int, c bool, e string) string {
+	var d string
+	if c {
+		d = "true"
+	} else {
+		d = "false"
+	}
+	if x > int(engo.GameWidth()) {
+		d = "false"
+	}
+	if y > int(engo.GameHeight()) {
+		d = "false"
+	}
+	return strconv.Itoa(x) + " " + strconv.Itoa(y) + " " + d + " " + e
 }
