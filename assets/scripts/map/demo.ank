@@ -1,6 +1,17 @@
+dx = cx + 10
+dy = cy + 10
+
+if dx > Width() {
+    dx = 0
+}
+
+if dy > Height() {
+    dy = 0
+}
+
 if cy%200 == 0 && cx%200 == 0 || cy%65 == 0 && cx%65 == 0 {
-    ret = returnFormat(cx+10,cy+10,true,"wall")
+    ret = returnFormat(dx,dy,true,"wall")
     return ret
 }
-ret = returnFormat(cx+10,cy+10,true,"")
+ret = returnFormat(dx,dy,true,"")
 return ret

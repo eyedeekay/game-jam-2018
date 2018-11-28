@@ -13,7 +13,7 @@ func (m *MapSystem) Build(xstart, ystart int) {
 	stop := false
 	fmt.Println("Running level generator")
 	x, y := m.injectMapInfo(xstart, ystart)
-	for !stop {
+	for cycles := 0; cycles <= m.cycleLimit; cycles++ {
 		x, y = m.injectMapInfo(x, y)
 		if ret, err := m.executeAnko(); err == nil {
 			switch v := ret.(type) {
@@ -46,6 +46,8 @@ func (m *MapSystem) Build(xstart, ystart int) {
 			default:
 				fmt.Println("X is unknown")
 			}
+		} else if stop {
+			return
 		} else {
 			log.Fatal(err.Error())
 		}
@@ -98,6 +100,14 @@ func (m *MapSystem) executeAnko() (interface{}, error) {
 	} else {
 		return nil, err
 	}
+}
+
+func (m *MapSystem) Width() int {
+	return int(engo.GameWidth())
+}
+
+func (m *MapSystem) Height() int {
+	return int(engo.GameHeight())
 }
 
 func (m *MapSystem) returnFormat(x, y int, c bool, e string) string {

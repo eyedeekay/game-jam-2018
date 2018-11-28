@@ -19,6 +19,7 @@ type MapSystem struct {
 	World          *ecs.World
 	MouseTracker   MouseTracker
 	GraphicFactory *graphic.GraphicsFactory
+	cycleLimit     int
 	scriptpath     string
 	script         string
 }
@@ -98,6 +99,7 @@ func (m *MapSystem) New(w *ecs.World, g *graphic.GraphicsFactory, scriptpath str
 	m.MouseTracker.BasicEntity = ecs.NewBasic()
 	m.MouseTracker.MouseComponent = common.MouseComponent{Track: true}
 	m.scriptpath = scriptpath
+	m.cycleLimit = 3000
 	tmpscript, err := ioutil.ReadFile(m.scriptpath)
 	if err != nil {
 		log.Fatalf("Define error: %v\n", err)
@@ -126,6 +128,7 @@ func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *
 	m.MouseTracker.BasicEntity = ecs.NewBasic()
 	m.MouseTracker.MouseComponent = common.MouseComponent{Track: true}
 	m.scriptpath = scriptpath
+	m.cycleLimit = 3000
 	tmpscript, err := ioutil.ReadFile(m.scriptpath)
 	if err != nil {
 		log.Fatalf("Define error: %v\n", err)
@@ -134,6 +137,8 @@ func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *
 	m.vmEnv = vm.NewEnv()
 	err = m.vmEnv.Define("println", fmt.Println)
 	err = m.vmEnv.Define("returnFormat", m.returnFormat)
+	err = m.vmEnv.Define("Height", m.Height)
+	err = m.vmEnv.Define("Width", m.Width)
 	if err != nil {
 		log.Fatalf("Define error: %v\n", err)
 	}
