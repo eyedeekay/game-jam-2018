@@ -57,7 +57,6 @@ func (m *MapSystem) LoadWall(x, y float32) {
 // Update is ran every frame, with `dt` being the time
 // in seconds since the last frame
 func (m *MapSystem) Update(dt float32) {
-	m.Build(1, 1)
 	if engo.Input.Button("AddWall").JustPressed() {
 		fmt.Println("The gamer pressed F1")
 		m.LoadWall(m.MouseTracker.MouseX, m.MouseTracker.MouseY)
@@ -92,6 +91,7 @@ func (m *MapSystem) New(w *ecs.World, g *graphic.GraphicsFactory, scriptpath str
 			sys.Add(&m.MouseTracker.BasicEntity, &m.MouseTracker.MouseComponent, nil, nil)
 		}
 	}
+	m.Build(1, 1)
 }
 
 func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *MapSystem {
@@ -119,5 +119,6 @@ func NewMapSystem(w *ecs.World, g *graphic.GraphicsFactory, scriptpath string) *
 			sys.Add(&m.MouseTracker.BasicEntity, &m.MouseTracker.MouseComponent, nil, nil)
 		}
 	}
+	m.Build(1, 1)
 	return &m
 }

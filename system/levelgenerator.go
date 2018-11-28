@@ -9,6 +9,7 @@ import (
 
 func (m *MapSystem) Build(xstart, ystart int) {
 	stop := false
+	fmt.Println("Running level generator")
 	x, y := m.injectMapInfo(xstart, ystart)
 	for !stop {
 		x, y = m.injectMapInfo(x, y)

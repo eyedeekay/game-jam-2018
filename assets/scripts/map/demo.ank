@@ -1,4 +1,10 @@
 if cy%200 == 0 && cx%200 == 0 || cy%65 == 0 && cx%65 == 0 {
-    return "1 1 true rubble"
+    dx = cx + 1
+    dy = cy + 1
+    ret = toString(dx) + toString(dy) + toString(true) + "rubble"
+    return ret
 }
-return "1 1 false rubble"
+dx = cx + 1
+dy = cy + 1
+ret = toString(dx) + toString(dy) + toString(false) + "rubble"
+return ret
