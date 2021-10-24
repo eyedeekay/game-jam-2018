@@ -4,8 +4,6 @@ type Interactable interface {
 }
 
 type Entity struct {
-	Interactable
-	Drawable
 	Name        string
 	Description string
 	/*Location    *Location
