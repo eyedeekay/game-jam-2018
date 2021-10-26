@@ -135,6 +135,10 @@ func (m *MenuSystem) Update(dt float32) {
 			}
 		}
 	} else {
+		//At this point, menu control swtich is disabled and everything
+		//is a signed message to an entity under our control who in turn
+		//will send a message to every peer who is maintaining the state
+		//of the game.
 		if engo.Input.Button("Right").Down() {
 		}
 		if engo.Input.Button("Left").Down() {
