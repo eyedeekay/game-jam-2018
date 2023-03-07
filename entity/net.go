@@ -4,7 +4,7 @@ import (
 	"net"
 
 	"github.com/eyedeekay/sam3"
-	"github.com/eyedeekay/sam3/i2pkeys"
+	"github.com/eyedeekay/i2pkeys"
 )
 
 type Peer struct {

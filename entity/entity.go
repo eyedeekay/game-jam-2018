@@ -6,7 +6,7 @@ import (
 
 	"log"
 
-	"github.com/eyedeekay/sam3/i2pkeys"
+	"github.com/eyedeekay/i2pkeys"
 )
 
 type Interactable interface {
